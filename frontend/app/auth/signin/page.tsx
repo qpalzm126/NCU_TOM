@@ -46,6 +46,8 @@ export default function SignInPage() {
       redirectTo: "/",
       username: values.username,
       password: values.password,
+    }).then(() => {
+      router.push("/");
     });
   }
 

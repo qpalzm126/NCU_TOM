@@ -41,18 +41,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const { username, password } = await signInSchema.parseAsync(
           credentials
         );
-        const token = await getToken(username, password);
+        const { refresh, access } = await getToken(username, password);
 
         // logic to verify if user exists
-        user = await getUser();
+        user = await getUser(access);
 
         if (!user) {
-          // No user found, so this is their first attempt to login
-          // meaning this is also the place you could do registration
           throw new Error("User not found.");
         }
 
-        // return user object with the their profile data
         return user;
       },
     }),
@@ -72,45 +69,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
-});
-
-const providers: Provider[] = [
-  Credentials({
-    credentials: {
-      username: {},
-      password: {},
-    },
-    authorize: async (credentials) => {
-      if (!credentials) {
-        throw new Error("Credentials are missing.");
-      }
-
-      let user = null;
-
-      // Get token
-      const { username, password } = await signInSchema.parseAsync(credentials);
-      const token = getToken(username, password);
-
-      // logic to verify if user exists
-      user = await getUser();
-
-      if (!user) {
-        // No user found, so this is their first attempt to login
-        // meaning this is also the place you could do registration
-        throw new Error("User not found.");
-      }
-
-      // return user object with the their profile data
-      return user;
-    },
-  }),
-];
-
-export const providerMap = providers.map((provider) => {
-  if (typeof provider === "function") {
-    const providerData = provider();
-    return { id: providerData.id, name: providerData.name };
-  } else {
-    return { id: provider.id, name: provider.name };
-  }
 });
