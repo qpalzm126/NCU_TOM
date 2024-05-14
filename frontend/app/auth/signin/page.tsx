@@ -5,6 +5,7 @@ import { login as setAuth } from "@/redux/features/authSlice";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { signIn } from "next-auth/react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-export default function SignIn() {
+export default function SignInPage() {
   const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -41,17 +42,11 @@ export default function SignIn() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    login(values)
-      .unwrap()
-      .then(() => {
-        dispatch(setAuth());
-        toast.success("Logged in successfully");
-        router.push("/");
-      })
-      .catch((error) => {
-        toast.error("Invalid username or password");
-        toast.error(error.data.message);
-      });
+    signIn("credentials", {
+      redirectTo: "/",
+      username: values.username,
+      password: values.password,
+    });
   }
 
   return (
