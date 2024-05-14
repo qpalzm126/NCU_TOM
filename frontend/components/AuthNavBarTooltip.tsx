@@ -1,9 +1,3 @@
-import {
-  useLogoutMutation,
-  useRetrieveUserQuery,
-} from "@/redux/features/authApiSlice";
-import { logout as setLogout } from "@/redux/features/authSlice";
-import { useAppDispatch } from "@/redux/hook";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -25,24 +19,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function AuthTooltip() {
-  const { data } = useRetrieveUserQuery();
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [logout] = useLogoutMutation();
-  const handleLogout = () => {
-    logout(undefined)
-      .unwrap()
-      .then(() => {
-        dispatch(setLogout());
-      })
-      .finally(() => {
-        router.push("/");
-      });
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <ButtonUI variant="outline">Hi, {data?.username}</ButtonUI>
+        <ButtonUI variant="outline">Hi, {}</ButtonUI>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -57,10 +37,7 @@ export function AuthTooltip() {
           ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleLogout()}>
-          {" "}
-          Log Out
-        </DropdownMenuItem>
+        <DropdownMenuItem> Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

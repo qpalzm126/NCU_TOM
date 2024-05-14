@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import Provider from "@/redux/provider";
 import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Background from "@/components/Background";
 import { NavBar } from "@/components/Navbar";
-import Setup from "@/components/setup";
 import NextAuthProvider from "./SessionProvider";
 import "./globals.css";
 
@@ -30,12 +28,9 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <main>
-                <Provider>
-                  <Setup />
-                  <NavBar />
-                  <Background />
-                  {children}
-                </Provider>
+                <NavBar />
+                <Background />
+                {children}
               </main>
             </ThemeProvider>
           </NextAuthProvider>

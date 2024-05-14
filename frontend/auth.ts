@@ -1,16 +1,12 @@
 import Credentials from "next-auth/providers/credentials";
 import NextAuth, { type DefaultSession } from "next-auth";
+import "next-auth/jwt";
 import { UserProfile } from "@/models/users";
 import { getToken } from "@/apis/auth/getToken";
 import { getUser } from "@/apis/auth/getUser";
+import type { NextAuthConfig } from "next-auth";
 import { object, string } from "zod";
-import type { Provider } from "next-auth/providers";
 import { z } from "zod";
-declare module "next-auth" {
-  interface Session {
-    user: UserProfile & DefaultSession["user"];
-  }
-}
 
 const signInSchema = z.object({
   username: string({ required_error: "Email is required" }).min(
@@ -23,7 +19,7 @@ const signInSchema = z.object({
     .max(32, "Password must be less than 32 characters"),
 });
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+const config = {
   providers: [
     Credentials({
       credentials: {
@@ -43,9 +39,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
         const { refresh, access } = await getToken(username, password);
 
-        // logic to verify if user exists
         user = await getUser(access);
-
         if (!user) {
           throw new Error("User not found.");
         }
@@ -55,18 +49,43 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    session({ session, token, user }) {
-      // `session.user.address` is now a valid property, and will be type-checked
-      // in places like `useSession().data.user` or `auth().user`
+    async session({ session, token }) {
+      if (!token?.accessToken) return session;
+      const userProfile: UserProfile = await getUser(token.accessToken);
+
       return {
         ...session,
         user: {
           ...session.user,
+          ...userProfile,
         },
       };
     },
   },
-  pages: {
-    signIn: "/auth/signin",
+  experimental: {
+    enableWebAuthn: true,
   },
-});
+  debug: process.env.NODE_ENV !== "production" ? true : false,
+} satisfies NextAuthConfig;
+
+export const { handlers, auth, signIn, signOut } = NextAuth(config);
+
+declare module "next-auth" {
+  interface Session {
+    user: UserProfile;
+  }
+}
+
+declare module "next-auth" {
+  interface Session {
+    accessToken?: string;
+    refreshToken?: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    accessToken?: string;
+    refreshToken?: string;
+  }
+}

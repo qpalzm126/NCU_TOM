@@ -1,9 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { useLoginMutation } from "@/redux/features/authApiSlice";
-import { login as setAuth } from "@/redux/features/authSlice";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 
@@ -22,9 +19,7 @@ import {
 } from "@/components/ui/form";
 
 export default function SignInPage() {
-  const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const formSchema = z.object({
     username: z.string().min(2, {
@@ -43,7 +38,6 @@ export default function SignInPage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     signIn("credentials", {
-      redirectTo: "/",
       username: values.username,
       password: values.password,
     }).then(() => {

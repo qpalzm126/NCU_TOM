@@ -1,5 +1,4 @@
 import api from "@/apis/wrapper";
-import { UserProfile } from "@/models/users";
 
 export async function getUser(access_token: string) {
   try {
