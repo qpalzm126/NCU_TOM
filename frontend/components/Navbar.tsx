@@ -1,5 +1,4 @@
-"use client";
-import { AuthTooltip } from "@/components/AuthNavBarTooltip";
+import AuthTooltip from "./AuthNavBarTooltip";
 import UnAuthTooltip from "@/components/UnauthNavBarTooltip";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

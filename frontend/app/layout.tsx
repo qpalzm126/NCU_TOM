@@ -3,7 +3,6 @@ import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider"
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Background from "@/components/Background";
 import { NavBar } from "@/components/Navbar";
-import NextAuthProvider from "./SessionProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,20 +19,18 @@ export default function RootLayout({
     <ReactQueryClientProvider>
       <html lang="en" suppressHydrationWarning>
         <body>
-          <NextAuthProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <main>
-                <NavBar />
-                <Background />
-                {children}
-              </main>
-            </ThemeProvider>
-          </NextAuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main>
+              <NavBar />
+              <Background />
+              {children}
+            </main>
+          </ThemeProvider>
         </body>
       </html>
     </ReactQueryClientProvider>

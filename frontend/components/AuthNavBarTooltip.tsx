@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import * as React from "react";
+import { auth } from "@/auth";
 
 const settings = [
   { name: "Dashboard", url: "/dashboard/lulin", disabled: false },
@@ -18,11 +18,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function AuthTooltip() {
+export default async function AuthTooltip() {
+  const session = await auth();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <ButtonUI variant="outline">Hi, {}</ButtonUI>
+        <ButtonUI variant="outline">Hi, {session?.user.username}</ButtonUI>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

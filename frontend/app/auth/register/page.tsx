@@ -1,12 +1,9 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { useRegisterMutation } from "@/redux/features/authApiSlice";
-import { login as setAuth } from "@/redux/features/authSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
@@ -28,9 +25,7 @@ import {
 } from "@/components/ui/select";
 
 export default function SignUp() {
-  const [register, { isLoading }] = useRegisterMutation();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const roleMap = {
     Admin: 1,
@@ -69,20 +64,7 @@ export default function SignUp() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    register(values)
-      .unwrap()
-      .then(() => {
-        dispatch(setAuth());
-        toast.success("Registered successfully");
-        router.push("/");
-      })
-      .catch((error) => {
-        for (const key in error.data) {
-          toast.error(`${key}: ${error.data[key][0]}`);
-        }
-      });
-  }
+  function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
     <div className="flex min-h-full flex-col justify-center px-12 py-12 lg:px-12">
