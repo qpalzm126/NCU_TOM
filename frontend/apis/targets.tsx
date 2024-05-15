@@ -1,8 +1,3 @@
-type ApiResponse = {
-  status: number;
-  message?: string;
-  // any other relevant metadata
-};
 import { Target } from "../models/targets";
 import api from "./wrapper";
 

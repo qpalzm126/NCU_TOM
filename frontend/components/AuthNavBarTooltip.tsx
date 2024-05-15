@@ -1,6 +1,7 @@
 import Link from "next/link";
 import * as React from "react";
 import { auth } from "@/auth";
+import { signOut } from "@/auth";
 
 const settings = [
   { name: "Dashboard", url: "/dashboard/lulin", disabled: false },
@@ -20,6 +21,7 @@ import {
 
 export default async function AuthTooltip() {
   const session = await auth();
+  console.log(session);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

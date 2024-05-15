@@ -23,10 +23,10 @@ const config = {
   providers: [
     Credentials({
       credentials: {
-        username: {},
-        password: {},
+        username: { label: "username", type: "text" },
+        password: { label: "password", type: "password" },
       },
-      authorize: async (credentials) => {
+      authorize: async (credentials, req) => {
         if (!credentials) {
           throw new Error("Credentials are missing.");
         }
@@ -44,22 +44,26 @@ const config = {
           throw new Error("User not found.");
         }
 
-        return user;
+        return {
+          ...user,
+          accessToken: access,
+          refreshToken: refresh,
+        };
       },
     }),
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      return {
+        ...token,
+        ...user,
+      };
+    },
     async session({ session, token }) {
       if (!token?.accessToken) return session;
-      const userProfile: UserProfile = await getUser(token.accessToken);
+      session.user = token as any;
 
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          ...userProfile,
-        },
-      };
+      return session;
     },
   },
   experimental: {
@@ -72,7 +76,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth(config);
 
 declare module "next-auth" {
   interface Session {
-    user: UserProfile;
+    user: UserProfile & {
+      accessToken?: string;
+      refreshToken?: string;
+    };
   }
 }
 
