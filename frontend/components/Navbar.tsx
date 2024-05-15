@@ -1,5 +1,4 @@
-import AuthTooltip from "./AuthNavBarTooltip";
-import UnAuthTooltip from "@/components/UnauthNavBarTooltip";
+import NavTooltip from "./NavTooltip";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -52,8 +51,9 @@ function NavBar() {
             </Button>
           ))}
         </nav>
-        <AuthTooltip />
-        <UnAuthTooltip />
+      </div>
+      <div>
+        <NavTooltip />
       </div>
     </div>
   );

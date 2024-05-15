@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import * as React from "react";
 import { auth } from "@/auth";
 import { signOut } from "@/auth";
@@ -19,8 +20,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default async function AuthTooltip() {
+export default async function NavTooltip() {
   const session = await auth();
+  return session ? AuthTooltip(session) : UnAuthTooltip();
+}
+
+function UnAuthTooltip() {
+  return (
+    <>
+      <Button asChild variant="secondary">
+        <Link href="/auth/signin">Login</Link>
+      </Button>
+    </>
+  );
+}
+
+function AuthTooltip(session: any) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,7 +61,7 @@ export default async function AuthTooltip() {
               await signOut();
             }}
           >
-            <button type="submit">Signnn out</button>
+            <button type="submit">logout</button>
           </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
