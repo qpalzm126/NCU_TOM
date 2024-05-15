@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
-
+import { getToken } from "@/apis/auth/getToken";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -41,6 +41,7 @@ export default function SignInPage() {
       username: values.username,
       password: values.password,
     }).then(() => {
+      getToken(values.username, values.password);
       router.push("/");
     });
   }

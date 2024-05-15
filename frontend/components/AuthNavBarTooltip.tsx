@@ -21,7 +21,6 @@ import {
 
 export default async function AuthTooltip() {
   const session = await auth();
-  console.log(session);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

@@ -1,3 +1,4 @@
+"use client";
 import { createTarget } from "@/apis/targets";
 import { TagOptions } from "@/components/TagOptions";
 import { Button } from "@/components/ui/button";
