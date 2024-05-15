@@ -39,7 +39,16 @@ export default async function AuthTooltip() {
           ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem> Log Out</DropdownMenuItem>
+        <DropdownMenuItem>
+          <form
+            action={async (formData) => {
+              "use server";
+              await signOut();
+            }}
+          >
+            <button type="submit">Signnn out</button>
+          </form>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

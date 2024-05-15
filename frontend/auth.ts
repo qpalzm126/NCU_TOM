@@ -15,6 +15,7 @@ const signInSchema = z.object({
   ),
   password: string({ required_error: "Password is required" })
     .min(1, "Password is required")
+    .min(8, "Password must be at least 8 characters")
     .max(32, "Password must be less than 32 characters"),
 });
 
@@ -37,7 +38,11 @@ const config = {
           credentials
         );
         const { refresh, access } = await getToken(username, password);
+        if (!access) {
+          console.log("access not found");
+        }
 
+        // Get user model
         user = await getUser(access);
         if (!user) {
           throw new Error("User not found.");
