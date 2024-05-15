@@ -1,8 +1,22 @@
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
-const api = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
-export default api;
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    const session = await getSession();
+    if (session) {
+      config.headers.Authorization = `JWT ${session.user.accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;
