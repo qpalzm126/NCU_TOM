@@ -7,7 +7,7 @@ import {
 } from "@/models/observations";
 import useAxiosAuth from "@/apis/hooks/useAxiosAuth";
 
-const ObservationApis: () => void = () => {
+const ObservationApis = () => {
   const axiosAuth = useAxiosAuth();
 
   const createObservation = async (newObservation: NewObservation) => {

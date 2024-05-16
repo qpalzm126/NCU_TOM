@@ -77,6 +77,9 @@ const config = {
   experimental: {
     enableWebAuthn: true,
   },
+  pages: {
+    signIn: "/auth/signin",
+  },
   debug: process.env.NODE_ENV !== "production" ? true : false,
 } satisfies NextAuthConfig;
 
