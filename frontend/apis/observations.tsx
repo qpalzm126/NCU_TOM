@@ -1,4 +1,3 @@
-import React from "react";
 import {
   LulinObservations,
   LulinObservationsUpdate,
@@ -8,7 +7,7 @@ import {
 } from "@/models/observations";
 import useAxiosAuth from "@/apis/hooks/useAxiosAuth";
 
-const ObservationApis = () => {
+const ObservationApis: () => void = () => {
   const axiosAuth = useAxiosAuth();
 
   const createObservation = async (newObservation: NewObservation) => {

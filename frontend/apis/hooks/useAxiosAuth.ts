@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useRefreshToken } from "./useRefreshToken";
 
 const useAxiosAuth = () => {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const refreshToken = useRefreshToken();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const useAxiosAuth = () => {
           status === "authenticated"
         ) {
           prevRequest.sent = true;
-
+          await refreshToken();
           prevRequest.headers[
             "Authorization"
           ] = `JWT ${session?.user.accessToken}`;

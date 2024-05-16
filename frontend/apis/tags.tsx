@@ -1,4 +1,3 @@
-import React from "react";
 import { NewTag } from "@/models/helpers";
 import useAxiosAuth from "@/apis/hooks/useAxiosAuth";
 
