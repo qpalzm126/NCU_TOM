@@ -14,5 +14,6 @@ export const useRefreshToken = () => {
     if (session) session.user.accessToken = res.data.accessToken;
     else signIn();
   };
+  console.log(refreshToken);
   return refreshToken;
 };

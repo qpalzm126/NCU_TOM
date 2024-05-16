@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useRefreshToken } from "./useRefreshToken";
 
 const useAxiosAuth = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const refreshToken = useRefreshToken();
 
   useEffect(() => {
@@ -18,14 +18,18 @@ const useAxiosAuth = () => {
       },
       (error) => Promise.reject(error)
     );
-
     const responseIntercept = axiosAuth.interceptors.response.use(
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
-        if (error?.response?.status === 401 && !prevRequest?.sent && session) {
+        if (
+          error?.response?.status === 401 &&
+          !prevRequest?.sent &&
+          session &&
+          status === "authenticated"
+        ) {
           prevRequest.sent = true;
-          await refreshToken();
+
           prevRequest.headers[
             "Authorization"
           ] = `JWT ${session?.user.accessToken}`;
