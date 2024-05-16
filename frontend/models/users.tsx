@@ -7,3 +7,15 @@ export interface UserProfile {
   title: number;
   role: number;
 }
+
+export interface NewUser {
+  first_name: string;
+  last_name: string;
+  role: number;
+  email: string;
+  institute: string;
+  username: string;
+  password: string;
+  re_password: string;
+  use_demo_targets: boolean;
+}

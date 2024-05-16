@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { createUser } from "@/apis/auth/createUser";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
@@ -64,7 +65,17 @@ export default function SignUp() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {}
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    createUser(values)
+      .then(() => {
+        toast.success("User created successfully");
+        router.push("/auth/signin");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <div className="flex min-h-full flex-col justify-center px-12 py-12 lg:px-12">
