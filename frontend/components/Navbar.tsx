@@ -16,8 +16,8 @@ const pages = [
   },
   {
     name: "Data Products",
-    link: "/data-products",
-    enabled: false,
+    link: "/dataproducts",
+    enabled: true,
   },
   {
     name: "Annoucements",

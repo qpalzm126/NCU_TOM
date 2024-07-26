@@ -1,12 +1,3 @@
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
   Card,
@@ -16,41 +7,18 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
-export default function Component() {
+export default function Page() {
   return (
-    <div className="flex flex-col min-h-screen bg-muted/40">
+    <div className="flex flex-col min-h-screen ">
       <header className="bg-background border-b px-4 py-3 sm:px-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Datasets</h1>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
-              >
-                <FilterIcon className="w-4 h-4" />
-                <span>Filter</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[200px]">
-              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem checked>
-                Recently Updated
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>
-                Recently Added
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>Alphabetical</DropdownMenuCheckboxItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <h1 className="text-2xl font-bold">Data Products</h1>
         </div>
       </header>
       <div className="max-w-6xl mx-auto p-4 sm:p-6 grid gap-6">
         <section>
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">Recent Events</h2>
+            <h2 className="text-xl">Recent observations</h2>
             <Link href="#" className="text-sm text-primary" prefetch={false}>
               View All
             </Link>
