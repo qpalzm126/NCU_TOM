@@ -7,28 +7,19 @@ from django.db import transaction
 from helpers.models import Tags
 from helpers.serializers import (TagsGetSerializer, TagsSerializer,
                                  UserSerializer)
-from observations.models import Observation
 from rest_framework import serializers
 
 from .models import Target
-
-
-class ObservationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Observation
-        fields = ('id', 'name', 'observatory',
-                  'start_date', 'end_date', 'status')
 
 
 class TargetGetSerializer(serializers.ModelSerializer):
     tags = TagsGetSerializer(many=True, required=False)
     user = UserSerializer()
     coordinates = serializers.SerializerMethodField()
-    observations = serializers.SerializerMethodField()
 
     class Meta:
         model = Target
-        fields = ('id', 'name', 'ra', 'dec', 'coordinates', 'observations', 'redshift', 'tags',  'notes',
+        fields = ('id', 'name', 'ra', 'dec', 'coordinates', 'redshift', 'tags',  'notes',
                   'user', 'created_at')
 
     def to_representation(self, instance):
@@ -44,10 +35,6 @@ class TargetGetSerializer(serializers.ModelSerializer):
         ra = c.ra.to_string(unit=u.hour, sep=':')
         dec = c.dec.to_string(unit=u.degree, sep=':')
         return f"{ra} {dec}"
-
-    def get_observations(self, instance):
-        observations = instance.observation_set.all()
-        return ObservationSerializer(observations, many=True).data
 
 
 class TargetPostSerializer(serializers.ModelSerializer):
