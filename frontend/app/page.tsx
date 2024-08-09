@@ -1,55 +1,53 @@
-import Image from "next/image";
-import Block from "@/components/Block";
-import styles from "./page.module.css";
+"use client";
+import React from "react";
+import Earth from "@/components/threeJs/Earth";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Environment } from "@react-three/drei";
+import Marker from "@/components/threeJs/Marker";
+import { Vector3 } from "three";
+import Stars from "@/components/threeJs/Stars";
+
+// Function to convert lat/long to 3D position
+function latLongToVector3(lat: number, lon: number, radius: number): Vector3 {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lon + 180) * (Math.PI / 180);
+
+  const x = -(radius * Math.sin(phi) * Math.cos(theta));
+  const z = radius * Math.sin(phi) * Math.sin(theta);
+  const y = radius * Math.cos(phi);
+
+  return new Vector3(x, y, z);
+}
 
 export default function Home() {
-  const block1_links = [
-    { name: "Sign up", href: "auth/register" },
-    { name: "Create targets", href: "targets/" },
-    { name: "Submmit observations", href: "observations/" },
-    { name: "Analyze", href: "#" },
-  ];
-  const block1_ctx = [
-    "Easily create your target of interest.",
-    "Create, Observe, and Collect your data with ease.",
-  ];
-
-  const block2_ctx = [
-    "Send your observations",
-    "Without worrying about the details.",
+  const markers = [
+    { lat: 40.7128, lon: -74.006 }, // New York
+    { lat: 51.5074, lon: -0.1278 }, // London
+    // Add more locations as needed
   ];
 
   return (
-    <>
-      <div>
-        <Image
-          className={styles.background}
-          alt="Mountains"
-          width={1920}
-          height={1080}
-          src="/Dalle-observatory.png"
-        />
+    <main>
+      <div className="w-screen h-screen">
+        <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
+          <ambientLight intensity={0.1} />
+          <pointLight position={[10, 10, 10]} intensity={1.5} />
 
-        <h1
-          style={{ textAlign: "center", height: "960px" }}
-          className=" flex items-center scroll-m-20  font-extrabold tracking-tight lg:text-9xl font-Pacifico text-primary-foreground"
-        >
-          NCU TOM
-        </h1>
+          <Earth />
+
+          {markers.map((marker, index) => (
+            <Marker
+              key={index}
+              position={latLongToVector3(marker.lat, marker.lon, 1)}
+            />
+          ))}
+
+          <Stars />
+
+          <OrbitControls />
+          <Environment preset="city" />
+        </Canvas>
       </div>
-      <Block
-        title="Create your targets"
-        context={block1_ctx}
-        links={block1_links}
-        direction="left"
-        img="https://images.unsplash.com/photo-1436891620584-47fd0e565afb?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      />
-      <Block
-        title="Submit observations"
-        context={block2_ctx}
-        direction="right"
-        img="https://images.unsplash.com/photo-1532417768914-d26087f20e75?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      />
-    </>
+    </main>
   );
 }

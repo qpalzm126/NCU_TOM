@@ -10,7 +10,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "NCU Tom",
-  description: "Targets and Obersvation Manager developed by NCU",
+  description: "Targets and Observation Manager developed by NCU",
 };
 
 export default function RootLayout({
@@ -20,8 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <ReactQueryClientProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body>
+      <html lang="en" className="h-full">
+        <body className="h-full overflow-x-hidden">
           <ToastContainer />
           <NextAuthProvider>
             <ThemeProvider
@@ -30,11 +30,11 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <main>
-                <NavBar />
+              <NavBar />
+              <div className="flex flex-col min-h-screen">
                 <Background />
                 {children}
-              </main>
+              </div>
             </ThemeProvider>
           </NextAuthProvider>
         </body>
