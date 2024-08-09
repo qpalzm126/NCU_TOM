@@ -27,7 +27,7 @@ export function AccordionAnnoucemnets() {
           </AccordionTrigger>
           <AccordionDate>
             {item.created_at
-              ? new Date(item.created_at).toLocaleDateString()
+              ? new Date(item.created_at).toISOString().split("T")[0]
               : ""}
           </AccordionDate>
           <AccordionContent>{item.context}</AccordionContent>

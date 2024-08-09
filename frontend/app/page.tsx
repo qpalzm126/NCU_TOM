@@ -29,11 +29,8 @@ export default function Home() {
 
   return (
     <main>
-      <div className="w-screen h-screen">
-        <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
-          <ambientLight intensity={0.1} />
-          <pointLight position={[10, 10, 10]} intensity={1.5} />
-          <Sun position={[0, 0, -105]} size={30} />
+      <div className="w-screen h-screen bg-black">
+        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
           <Earth />
 
           {markers.map((marker, index) => (
