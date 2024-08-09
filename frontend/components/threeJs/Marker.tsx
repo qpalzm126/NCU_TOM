@@ -40,9 +40,9 @@ const Marker: React.FC<MarkerProps> = ({ position }) => {
         <MeshDistortMaterial
           color="red"
           transparent
-          opacity={0.6}
+          opacity={0.2}
           distort={0.4}
-          speed={4}
+          speed={10}
         />
       </mesh>
     </group>

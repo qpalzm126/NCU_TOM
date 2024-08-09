@@ -1,4 +1,5 @@
 "use client";
+import Sun from "@/components/threeJs/Sun";
 import React from "react";
 import Earth from "@/components/threeJs/Earth";
 import { Canvas } from "@react-three/fiber";
@@ -32,7 +33,7 @@ export default function Home() {
         <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
           <ambientLight intensity={0.1} />
           <pointLight position={[10, 10, 10]} intensity={1.5} />
-
+          <Sun position={[0, 0, -105]} size={30} />
           <Earth />
 
           {markers.map((marker, index) => (
