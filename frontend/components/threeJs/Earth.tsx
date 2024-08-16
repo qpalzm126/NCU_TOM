@@ -15,6 +15,7 @@ const Earth = () => {
 
   // useFrame((state, delta) => {
   //   meshRef.current.rotation.y += delta * 0.1;
+  //   meshRef.current.rotation.x += delta * 0.1;
   // });
 
   return (

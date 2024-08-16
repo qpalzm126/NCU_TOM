@@ -24,7 +24,6 @@ export default function Home() {
   const markers = [
     { lat: 40.7128, lon: -74.006 }, // New York
     { lat: 51.5074, lon: -0.1278 }, // London
-    // Add more locations as needed
   ];
 
   return (
@@ -32,16 +31,13 @@ export default function Home() {
       <div className="w-screen h-screen bg-black">
         <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
           <Earth />
-
           {markers.map((marker, index) => (
             <Marker
               key={index}
               position={latLongToVector3(marker.lat, marker.lon, 1)}
             />
           ))}
-
           <Stars />
-
           <OrbitControls />
           <Environment preset="city" />
         </Canvas>
